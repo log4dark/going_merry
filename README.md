@@ -1,20 +1,38 @@
 # Java
-Drop in Java :love_you_gesture:
+Drop in Java :love_you_gesture:  
 
-## Start...
+## Contents
+> + 01 데이터 타입 (Data Type)
+> + 02 연산자
+> + 03 제어문
+> + 04 클래스 (Class)
+> + 05 상속
+> + 06 인터페이스 (Interface)
+> + 07 중첩 클래스와 중첩 인터페이스 (Nested Class and Nested Interface)
+> + 08 예외 처리 (Exception)
+> + 09 스레드 (Thread)
+> + 10 제너릭 (Generic)
+> + 11 자바 API (library)
+>   + java.lang
+>   + java.util
+>   + java.time
+> + 12 자바 I/O 입출력
+> + 13 자바 네트워킹
+
+## 00 Start...
 API Document link: <https://docs.oracle.com/javase/8/docs/api/>
+
 ### 자바란?
 - 객체지향 언어
 - Garbage Collector
 - JVM(Java Virtual Machine) - One source multi-use
 - 함수적 스타일 코딩 지원 -> 람다식(Lambda Expression)
-
  
-## Data Type
+## 01 데이터 타입 (Data Type)
 ### 기본 타입(Primitive Type)
 #### 정수 타입
 - byte: 1byte - 바이너리 데이터 처리할 때 사용 (파일, 네트워크)
-- char: 2byte, 0~2<sup>16-1</sup> - (유니코드: \u0000~\uFFFF)
+- char: 2byte, 0~2<sup>16-1</sup> (유니코드: \u0000~\uFFFF)
 - short: 2byte
 - int: 4byte
 - long: 8byte
@@ -28,7 +46,7 @@ API Document link: <https://docs.oracle.com/javase/8/docs/api/>
 
 #### String 타입
 ...
-```
+```java
 // 문자열 리터럴이 동일하면 같은 객체를 공유
 String name1 = "penny"; 
 String name2 = "penny";
@@ -42,22 +60,25 @@ name3 == name4; // false
 // String 값 비교는 equals 메소드 사용. 
 name3.equals(name4); // true
 ```
+
 #### 배열 타입
 배열 선언
-```
+```java
 int[] array; // 타입[] 변수
 int array[]; // 타입 변수[]
 ```
+
 배열 선언과 값 할당
-```
+```java
 String[] name1 = {"dark", "penny", "jisung");
 String[] name2 = null;
 name2 = new String[] {"dark", "penny", "jisung");
 // 배열 객체의 주소 출력
 System.out.printf("name=%x\n", System.identityHashCode(name));
 ```
+
 커맨드 라인 입력
-```
+```java
 // $ java TcpServer 127.0.0.1 20000 
 public String void main(String[] args) {
 	args.length; // 2
@@ -66,16 +87,18 @@ public String void main(String[] args) {
     ...
 }
 ```
+
 다차원 배열
-```
+```java
 int[][] scores = new int[2][3];
 scores.length; // 2
 scores[0].length; // 3
 scores[1].length; // 3
 ```
+
 #### Enum 타입
 Enum 선언
-```
+```java
 // BloodType.java
 public enum BloodType { // 파일명과 Enum명이 같아야 함
     A, // 요넘 하나가 객체임
@@ -84,13 +107,15 @@ public enum BloodType { // 파일명과 Enum명이 같아야 함
     O
 }
 ```
+
 Enum 객체의 메소드
 - name(): 열거 객체의 문자열 리턴
 - ordinal(): 열거 객체의 순번(0부터 시작)을 리턴
 - valueOf(): 주어진 문자열의 열거 객체를 리턴
 - compareTo(): 열거 객체를 비교해서 순번 '차이'를 리턴
-- values(): 모든 열거 객체들을 배열로 리턴
-```
+- values(): 모든 열거 객체들을 배열로 리턴  
+ 
+```java
 BloodType bt1 = Bloodtype.AB;
 String name = bt1.name(); // "AB"
 int ordinal = bt1.ordinal(); // 2
@@ -104,10 +129,10 @@ BloodType[] btArr = BloodType.values();
 for(BloodType bt3 : btArr) {
 	System.out.println(bt3); // A, B, AB, O
 }
-```
-C/C++ style Enum
-- ref: https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
-```
+```  
+
+C/C++ style Enum[^1]
+```java
 public enum ErrorCode {
     SUCCESS(0), // SUCCESS 객체를 생성, 생성자 구현 후 int 0 으로 설정
     ERROR(1),
@@ -174,18 +199,18 @@ int[]scores = {95, 90, 87, 89, 97};
 for (int scores : scores) {
 	// processing...
 }
-```
+```  
 
-
-## Class
+## 04 클래스 (Class)
 ### 객체지향 프로그래밍
 객체간의 상호작용, 메소드 호출(메시지 전달), 객체간의 관계.  
+
 #### 객체란?
 물리적으로 존재하거나 추상적으로 존재하며 자신만의 속성을 가지고 식별되는 개체이다.  
 객체는 속성과 동작으로 구성되어 있고, 자바에서는 각각을 필드(**field**)와 메소드(**method**)라고 한다.  
 그러면, 클래스는? 객체를 생성/만들기 위한 템플릿(Template)이다.
 
-**Instance vs. Object**[^1]  
+**Instance vs. Object**[^2]  
 예를 들어서 그릇에 사과 5개가 있고, 각각의 사과는 사과 타입의 객체이고, 둥글고, 크고등의 특징을 가지고 있다.   
 위의 내용을 프로그래밍 관점에서 보면,  
 Apple 클래스에 변수로 shape:둥글고, size:크다 등을 가져야 하고,   
@@ -245,7 +270,8 @@ public class ClassName {
 필드 선언과 동시에 초기화 가능하고 생략 시, 필드 초기값은 정수/실수 티입은 '0', 논리 타입은 'false', 참조 타입은 'null' 이다.
 
 ### 생성자
-객체의 생성 시, 초기화 역할  
+객체의 생성 시, 초기화 역할 
+
 #### 다른 생성자 호출 (this())
 ```java
 클래스( [매개변수선언, ...] ) {
@@ -263,7 +289,8 @@ Car(String model, int maxSpeed) {
 ```
 
 ### 메소드
-객체의 동작 역할
+객체의 동작 역할  
+
 #### 메소드 선언 시, 매개 변수의 수를 모를 경우
 ```java
 // 매개 변수를 배열 타입으로 선언
@@ -294,7 +321,7 @@ int result = sum2(new int [] {1, 2, 3, 4}); // 배열을 직접 사용 해도 �
 - 즉, 클래스 이름이 같아도 패키지 이름이 다르면, 다른 클래스로 인식
 
 #### 패키지 선언
-```
+```java
 package 상위패키지.하위패키지;
 public class ClassName { ... }
 ```
@@ -303,7 +330,7 @@ public class ClassName { ... }
 ...  
 
 
-## 상속
+## 05 상속
 ### Keywoard:
 + 상위 클래스/부모 클래스, 하위 클래스/자식 클래스
 + 코드 중복을 줄이기 위해?
@@ -311,7 +338,7 @@ public class ClassName { ... }
 + 다중 상속 지원하지 않음
 
 ### 클래스 상속
-```
+```java
 class 자식클래스 extends 부모클래스 {
 }
 
@@ -353,7 +380,7 @@ class SportsCar extends Car {
 #### 필드의 다형성 
 부모 타입으로 (자동)형 변환되면, 부모 클래스에 선언된 필드와 메소드만 접근이 가능하다.  
 한가지 예외는 자식 클래스에서 메소드가 오버라이딩 되었다면, 자식 클래스의 메소드가 호출 된다.
-```
+```java
 public class Car {
   Tire tire1 = new KoreaTire(); // 다형성 예
   Tire tire2 = new JapanTire();
@@ -361,7 +388,7 @@ public class Car {
 ```
 
 #### 매개 변수의 다형성
-```
+```java
 public class Car {
   public void run() {} // 차량이 달립니다.
 }
@@ -384,22 +411,23 @@ public class Driver {
 Taxi taxi = new Taxi()
 Driver driver = new Driver(taxi); // Car car = taxi;
 driver.run(); // 택시가 달립니다. (자식 객체에서 재정의한 run 호출)
-```
+```  
+
 #### 강제 타입 변환(Casting)
 자식 객체가 부모 객체의 타입으로 자동 타입 변환 후, 다시 자식 타입으로 변환할 때 강제 타입 변환을 사용할 수 있다.  
 어떤 경우에 사용할까? 자식 객체의 필드와 메소드 사용을 하고 싶을 때, 강제 타입 변환 함.
-```
+```java
 자식 클래스 변수 = (자식 클래스) 부모 클래스 타입;
 ```
 
 #### 객체 타입 확인(instance of)
 강제 타입 변환은 자식 타입이 부모 타입으로 변환된 상태에서만 다시 자식 타입으로 변환 가능하다.
-```
+```java
 Taxi taxi = (Taxi) car; // car의 타입이 Car인지 Taxi인지 어떻게 알수 있을까?
 ```
 
 어떤 객체가 어떤 클래스의 인스턴스인지 확인하기 위해서 `instance of` 연산자 사용  
-```
+```java
 boolean result = 좌항(객체) instanceof 우항(타입)
 
 if (car instanceof Taxi) {
@@ -419,7 +447,7 @@ if (car instanceof Taxi) {
 
 #### 추상 클래스 선언
 클래스 선언 시 `abstract` 키워드 사용
-```
+```java
 public abstract class Car {
   // 필드
   // 생성자
@@ -431,7 +459,7 @@ public abstract class Car {
 추상 클래스에서 메소드 이름은 통일 시켰는데, 행동이 각 구현 클래스마다 다를 경우, 추상 메소드 사용.  
 추상 메소드는 선언부만 있고 실행 내용은 없어서, 자식 클래스에서 반드시 구현을 해야함.  
 즉, 추상 메소드는 **구현강제**의 목적.
-```
+```java
 public abstract class Animal {
   public sbstract void sound(); // {} 없음.
 }
@@ -452,12 +480,12 @@ public class Cat extends Aniaml {
 ```
 
 
-## 인터페이스
+## 06 인터페이스 (Interface)
 역할은? 객체의 사용 방법을 정의, 객체의 사용 설명서
 (dark) 상속은 기능의 확장이고, 인터페이스는 기능의 규격화로 볼수 있다.
 
 ### 인터페이스 선언
-```
+```java
 public interface 인터페이스명 {
   // 상수
   [public static final] 타입 상수명 = 10;
@@ -480,7 +508,7 @@ public interface 인터페이스명 {
 
 ### 인터페이스 구현
 #### 구현 클래스
-```
+```java
 public class 구현클래스명 implements 인터페이스명 {
   // 인터페이스에 선언된 추상 메소드를 구현
 }
@@ -507,16 +535,16 @@ public abstract class 구현클래스명 implements 인터페이스명 {
 ### 타입 변환과 다형성
 ...  
 
-
 ### 인터페이스 상속
 ...  
 
 ### 디폴트 메소드와 인터페이스 확장
-...  
+...   
 
 
-## 중첩 클래스와 중첩 인터페이스
+## 07 중첩 클래스와 중첩 인터페이스 (Nested Class and Nested Interface)
 중첩 클래스란?  
+
 ```java
 class ClassName {
   class NestedClassName {}
@@ -562,21 +590,13 @@ class ClassName {
     // 메소드    
 }
 ```
-
 *Code: No9-anonymous-object*
 
-## 예외 처리
+## 08 예외 처리 (Exception)
 ...  
 
-## 제너릭
 
-
-제네릭(Generic) 은 클래스, 인터페이스, 메서드등의 **타입**을 **파라미터로** 사용할 수 있게 해주는 역할을 한다.
-
-## 컬렉션
-... 
-
-## 멀티 스레드
+## 09 스레드 (Thread)
 ### 스레드 생성과 실행
 #### Runnable 인터페이스의 구현 객체를 통한 스레드 생성과 실행
 
@@ -673,236 +693,33 @@ public void increment() {
 일부 내용만 임계 영역으로 만들고 싶으면 동기화(synchronized) 블록을 만들되면 돤다.
 
 
-
 ### ref
 + https://codechacha.com/ko/java-atomic-types/
 
-
-## 람다식
-### 람다식이란?
-익명 함수(anonymous function)를 생성하기 위한 식  
-+ 병렬 처리와 이벤트 지향 프로그래밍에 적합
-+ ...
-
-람다식의 형태는 `(매개변수) -> {실행코드}` 형태로 작성 되는데, 런타임 시에는 인터페이스의 익명 구현 객체로 생성된다.
-```java
-람다식 -> 매개변수를 가진 코드 블록 -> 익명 구현 객체
-
-// Runnable 인터페이스 익명 구현 객체
-Runnable runnable = new Runnable() {
-    public void run() { ... }
-}
-
-// 익명 구현 객체를 람다식 표현
-Runnable runnable = () -> { ... };
-```
-
-### 람다식 기본 문법
-함수적 스타일의 람다식
-```java
-(타입 매개변수, ...) -> { 실행문; ... }
-``` 
-`->` 기호는 매개 변수를 이용해서 {} 실행한다는 의미
-```java
-(int a) -> { System.out.println(a);}
-```
-매개 변수 타입은 런타임 시에 대입되는 값에 따라 자동 인식 되기 때문에 일반적으로 생략
-```java
-(a) -> { System.out.println(a);}
-```
-**하나의 매개 변수**만 있다면 괄호`()` 생략 가능, **하나의 실행문**만 있다면 중괄호 `{}`도 생략 가능  
-```java
-a -> System.out.println(a)
-```
-만약 매개 변수가 없으면 빈 괄호`()`를 반드시 사용 해야 함
-```java
-() -> { 실행문; ...}
-```
-중괄호 {}를 실행하고 결과값을 리턴해야 한다면 `return`문 사용 가능
-```java
-(x, y) -> { return x + y; };
-```
-중괄호 {}에 return문만 있을 경우, `return`문 생략 가능
-```java
-(x, y) -> x + y
-```
-
-### 타겟 타입과 함수적 인터페이스
-```java
-인터페이스 변수 = 람다식;
-```
-자바의 람다식은 인터페이스의 익명 구현 객체 생성을 통해서 표현하고, 
-해당 인터페이스를 람다식의 **타겟 타입(target type)** 이라고 한다.
-+ *(bsj) 자바에서 람다식 작성을 위해서는 인터페이스가 있어야 한다.
-인터페이스를 통해서 익명 구현 객체를 만드는것을 조금 변형하여 람다식을 표현 할 수 있도록 했다.*
-
-람다식이 하나의 메소드만 정의하기 때문에 
-하나의 추상 메소드가 선언된 인터페이스만이 람다식의 타겟 타입이 될 수 있는데, 
-이러한 인터페이스를 **함수적 인터페이스(function interface)** 라고 한다.  
-
-인터페이스 선언 시 **@FunctionalInterface** 어노테이션을 붙이면, 
-두 개 이상의 추상 메소드 선언 시 컴파일 오류를 발생 시킨다. 
- 
-#### 매개 변수와 리턴값이 없는 람다식
-```java
-// 함수적 인터페이스
-@FunctionalInterface
-public interface MyFunctionalInterface {
-    public void method();
-}
-
-// 람다식
-MyFunctionalInterface fi = () -> { ... }
-        
-// 실행
-fi.method(); // 호출 시, 람다식의 중괄호 {}를 실행
-```  
-#### 매개 변수가 있는 람다식
-```java
-// 함수적 인터페이스
-@FunctionalInterface
-public interface MyFunctionalInterface {
-    public void method(int x);
-}
-
-// 람다식
-MyFunctionalInterface fi = (x) -> { ... } 또는 x -> { ... }
-        
-// 실행
-fi.method(3);
-```
-#### 리턴값이 있는 람다식
-```java
-// 함수적 인터페이스
-@FunctionalInterface
-public interface MyFunctionalInterface {
-    public int method(int x, int y);
-}
-
-// 람다식
-MyFunctionalInterface fi = (x, y) -> { ...; return 값; }
-        
-// 실행
-int result = fi.method(3, 5);
-```   
-### 클래스 맴버와 로컬 변수 사용
-람다식의 실행 블록에는 클래스의 멤버(필드와 메소드) 및 (메소드의) 로컬 변수를 사용할 수 있다. 
-그러나 로컬 변수는 `final` 특성을 가지기 때문에 읽기는 가능하지만, 쓰기는 불가능 하다.
-
-#### 클래스의 멤버 사용
-일반적으로 익명 객체 내부에서 `this`는 익명 객체의 참조이지만, 
-**람다식** 에서 `this`는 람다식을 실행한 객체의 참조이다.
-
-*Code: No14-lambda*
-
-### 표준 API의 함수적 인터페이스
-자바 8에서 자주 사용되는 함수적 인터페이스(function interface)를 
-java.util.function 표준 API 패키지로 제공한다.  
-왜? 메소드 또는 생성자의 매개 타입으로 사용되어 람다식을 대입할 수 있도록 하기 위해서이다.  
-
-java.util.function 패키지에서 제공하는 함수적 인터페이스는 아래와 같다.  
-
-| 종류        | 추상 메소드 특징                                                | ...                                  |
-|-----------|----------------------------------------------------------|--------------------------------------|
-| Consumer  | - 파라미터 있고, 리턴값 없음                                        | (파라미터) --> [Consumer]                |
-| Supplier  | - 파라미터 없고, 리턴값 있음                                        | [Supplier] -->(리턴)                   |
-| Function  | - 파라미터 있고, 리턴값 있음<br/>- 주로 파라미터값을 리턴값으로 매핑(타입 변환)        | (파라미터) --> [Function] --> (리턴)       |
-| Operator  | - 파라미터 있고, 리턴값 있음<br/>- 주로 파라미터값을 계산하고 결과를 리턴            | (파라미터) --> [Operator] --> (리턴)       |
-| Predicate | - 파라미터 있고, 리턴타입은 boolean<br/>- 파라미터값을 확인해서 true/false 리턴 | (파라미터) --> [Predicate] --> (boolean) |
-
-#### Consumer 함수적 인터페이스
-Consumer 함수적 인터페이스는 파라미터를 받아서 처리하는 역할로 `accept()` 메소드를 가지고 있다.  
-
-| 인터페이스명               | 추상 메소드                         |
-|----------------------|--------------------------------|
-| Consumer<T>          | void accept(T t)               |
-| BiConsumer<T>        | void accept(T t, U u)          |
-| DoubleConsumer<T>    | void accept(double value)      |
-| IntConsumer<T>       | void accept(int value)         |
-| LongConsumer<T>      | void accept(long value)        |
-| ObjDoubleConsumer<T> | void accept(T t, double value) |
-| ObjIntConsumer<T>    | void accept(T t, int value)    |
-| ObjLongConsumer<T>   | void accept(T t, long value)   |
-
-Consumer<T> 인터페이스를 타겟 타입으로 하는 람다식은 다음과 같다.  
-```java
-Consumer<String> consumer = t -> { t를 처리하는 실행문; };
-```
-Consumer 함수적 인터페이스 예제
-```java
-public class ConsumerExample {
-  public static void main(String[] args) {
-    Consumer<String> consumer = (t) -> {
-      System.out.printf("%s8\n", t);
-    };
-    consumer.accept("Java");
-  }
-}
-```
-
-#### Supplier 함수적 인터페이스
-Supplier 함수적 인터페이스는 실행문 {}에서 처리 후, 데이터를 리턴하는 역할로 `getXXX()` 메소드를 가지고 있다.  
-
-| 인터페이스명          | 추상 메소드                 |
-|-----------------|------------------------|
-| Supplier<T>     | T get()                |
-| BooleanSupplier | boolean getAsBoolean() |
-| DoubleSupplier  | double getAsDouble()   |
-| IntSupplier     | int getAsInt()         |
-| LongSupplier    | long getAsLong()       |
-
-Supplier<T> 인터페이스를 타겟 타입으로 하는 람다식은 다음과 같다.
-```java
-Supplier<String> supplier = () -> { ...; return "문자열"; };
-```
-Supplier 함수적 인터페이스 예제
-```java
-public class SupplierExample {
-  public static void main(String[] args) {
-    IntSupplier intSupplier = () -> {
-      int num = (int) (Math.random() * 6) + 1;
-      return num;
-    };
-    int num = intSupplier.getAsInt();
-    System.out.printf("주사위 수: %d\n", num);
-  }
-}
-```
-
-#### Function 함수적 인터페이스
-Function 함수적 인터페이스는 파라미터값을 리턴값으로 타입 변환하는 역할이고, `applyXXX()` 메소드를 가지고 있다. 
-
-
-### Q & A
-함수적 프로그래밍이 다시 부각, 병렬처리와 이벤트 지향 프로그래밍에 적합  
-왜??? Functional 언어의 어떤점 때문에...
-+ 병렬처리 유리???
-+ 이벤트 지향 프로그래밍 유리???
-
-
-
-## 스트림과 병렬 처리
-... 
-
-## IO 기반 입출력 및 네트워킹
+## 10 제너릭 (Generic)
+제네릭(Generic) 은 클래스, 인터페이스, 메서드등의 **타입**을 **파라미터로** 사용할 수 있게 해주는 역할을 한다.
 ...  
 
-## NIO 기반 입출력 및 네트워킹
+
+## 11 자바 API (library)
+
+### java.lang  
+
+### java.util  
+
+### java.time  
+
+
+## 12 I/O 입출력
+...  
+
+
+## 13 자바 네트워킹
 ...
 
 
-## 추가적인것들...
+## Reference 
+> + ...   
 
-### 리플렉션이란?
-
-ref: 리플렉션
-* https://91mbym.tistory.com/23
-* https://codechacha.com/ko/reflection/
-* https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html
-
-[^1]: https://stackoverflow.com/questions/2885385/what-is-the-difference-between-an-instance-and-an-object
-
-
-# Java 8
-
-## null 대신 Optional
+[^1]: https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+[^2]: https://stackoverflow.com/questions/2885385/what-is-the-difference-between-an-instance-and-an-object
